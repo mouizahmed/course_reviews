@@ -1,142 +1,379 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import NewReview from '../components/NewReview.js';
-import { format } from 'date-fns';
-import Moment from 'react-moment';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import NewReview from "../components/NewReview.js";
+import { format } from "date-fns";
+import Moment from "react-moment";
+import Stack from "@mui/material/Stack";
+import Modal from "@mui/material/Modal";
+import UserForm from "../components/UserForm";
+import Chip from "@mui/material/Chip";
+import CloseIcon from "@mui/icons-material/Close";
 
+function Course({ authState, username }) {
+  let { universityTag, facultyName, courseID } = useParams();
 
+  //    const [listOfFaculties, setListOfFaculties] = useState([]);
+  //    const [listOfCourses, setListOfCourses] = useState([]);
 
-function Course(props) {
-    let { universityTag, facultyName, courseID } = useParams();
-    
-//    const [listOfFaculties, setListOfFaculties] = useState([]);
-//    const [listOfCourses, setListOfCourses] = useState([]);
+  const [course, setCourse] = useState([]);
+  const [universityName, setUniversityName] = useState("");
+  const [listOfReviews, setListOfReviews] = useState([]);
 
-    const [course, setCourse] = useState([]);
-    const [listOfReviews, setListOfReviews] = useState([]);
-    const [show, setShow] = useState(false);
-    const [listOfProfessors, setListOfProfessors] = useState([]);
-    
+  const [listOfProfessors, setListOfProfessors] = useState([]);
+  const [page, setPage] = useState(1);
+  const [show, setShow] = useState(false);
+  const handleOpen = () => setShow(true);
+  const handleClose = () => {
+    setShow(false);
+    setPage(0);
+  };
 
-    useEffect(() => {
-        axios.get(`http://localhost:3001/course/${universityTag}/${facultyName}/${courseID}`).then((response) => {
-          setCourse(response.data[0]);
-          console.log(course);
-    });
-        axios.get(`http://localhost:3001/review/${universityTag}/${facultyName}/${courseID}`).then((response) => {
-          setListOfReviews(response.data);
-          console.log(response.data);
-    });
-        axios.get(`http://localhost:3001/course/${universityTag}/${facultyName}/${courseID}/professors`).then((response) => {
-          setListOfProfessors(response.data);
-          console.log("hello")
-          console.log(response.data);
-    });
-    }, [universityTag, facultyName, courseID]);
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:3001/course/${universityTag}/${facultyName}/${courseID}`
+      )
+      .then((response) => {
+        setCourse(response.data[0]);
 
-    
-    const formatDate = (date) => {
-      const newDate1 = Moment(date).format('YYYY-MM-DD');
-      return newDate1;
-    };
-    
+        setUniversityName(response.data[0].universityName);
+      });
+    axios
+      .get(
+        `http://localhost:3001/review/${universityTag}/${facultyName}/${courseID}`
+      )
+      .then((response) => {
+        setListOfReviews(response.data);
+      });
+    axios
+      .get(
+        `http://localhost:3001/course/${universityTag}/${facultyName}/${courseID}/professors`
+      )
+      .then((response) => {
+        setListOfProfessors(response.data);
+      });
+  }, [universityTag, facultyName, courseID]);
+
+  const formatDate = (date) => {
+    const newDate1 = Moment(date).format("YYYY-MM-DD");
+    return newDate1;
+  };
+
+  const onDelete = (e, reviewID) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log(reviewID);
+    console.log("delete");
+    axios
+      .delete(`http://localhost:3001/user/delete/${reviewID}`, {
+        headers: {
+          accessToken: sessionStorage.getItem("accessToken"),
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setListOfReviews(
+          listOfReviews.filter((val) => {
+            return val.reviewID !== reviewID;
+          })
+        );
+      });
+  };
+
+  const checkColor = (color) => {
+    if (color <= 2) {
+      return "red";
+    } else if (color > 2 && color < 4) {
+      return "yellow";
+    } else {
+      return "green";
+    }
+  };
   return (
-    
     <div className="outer">
-        
-        <div className='search_div'>
-          <div className='search'>
-            {course.courseID}
-            <br></br>
-            {course.courseName}
-            <Box
-        component="form"
-        sx={{
-          '& > :not(style)': { m: 1, width: '25ch' },
-        }}
-        >
-          <br></br>
-          <Button 
-          variant="outlined"
-          onClick={() => setShow(prev => !prev)}
-          >Leave a Review</Button>
-            
-        </Box>
-        </div>
-        </div>
+      <div className="home-top">
+        <Card>
+          <CardContent
+            sx={{
+              flexDirection: "column",
+              alignContent: "center",
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Stack
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              spacing={2}
+            >
+              <Typography
+                sx={{ fontWeight: "bold", fontSize: 15, mt: 1.5 }}
+                color="text.secondary"
+              >
+                {course.courseID}
+              </Typography>
+              <Typography
+                sx={{ fontWeight: "bold", fontSize: 15, mb: 1.5 }}
+                color="text.secondary"
+              >
+                {course.courseName}
+              </Typography>
+              <Box
+                component="form"
+                sx={{
+                  "& > :not(style)": { m: 1, width: "25ch" },
+                }}
+              >
+                <br></br>
+                <Button
+                  variant="outlined"
+                  onClick={() => setShow((prev) => !prev)}
+                >
+                  Leave a Review
+                </Button>
+              </Box>
+            </Stack>
+          </CardContent>
+        </Card>
+      </div>
 
-        {show && <NewReview listOfProfessors={listOfProfessors} username={props.username} />}
+      <Modal
+        open={show}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Paper elevation={3}>
+          <Box className="modal">
+            <UserForm
+              type={"add-review"}
+              page={2}
+              listOfUniversities={[{ universityName }]}
+              uniTag={universityTag}
+              professors={listOfProfessors}
+              faculty={facultyName}
+              courseID={courseID}
+              courseName={course.courseName}
+            />
+          </Box>
+        </Paper>
+      </Modal>
 
-        
+      <div style={{ maxHeight: "75vh", overflow: "auto" }}>
         {listOfReviews.map((rows) => (
-            
-        
-            <div className="review">  
-    <Box sx={{ flexGrow: 1, flexWrap: 'wrap' }} className="grid">
-      <Grid container spacing={2} columns={{ xs: 8, md: 8, lg: 16 }}  >
-        <Grid item xs={8} md={8} lg={2}>
-          <Card>
-            <CardContent  sx={{ flexGrow: 1, flexWrap: 'wrap' }}>
-              <Grid container spacing={3} columns={{ xs: 8, md: 1}}>
-                <Grid item xs={2} md={1}>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">Overall</Typography>
-                <Typography variant="h5" component="div">{rows.overallScore}</Typography>
-                </Grid>
-                <Grid item xs={2} md={1}>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">Easy</Typography>
-                <Typography variant="h5" component="div" className="boxed">{rows.easyScore}</Typography>
-                </Grid>
-                <Grid item xs={2} md={1}>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">Useful</Typography>
-              <Typography variant="h5" component="div">{rows.UseScore}</Typography>
-                </Grid>
-                <Grid item xs={2} md={1}>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">Interest</Typography>
-              <Typography variant="h5" component="div">{rows.interestScore}</Typography>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs md={14} className="inner">
-          <Card>
-            <CardContent className="inner">
-              <div className="reviewTopL"><Typography variant="h7">Professor: {rows.professorName} / {rows.termTaken} {rows.yearTaken}</Typography></div>
-              <div className="reviewTopR"><Typography variant="h7">{(rows.dateUploaded).slice(0, 10)}</Typography></div>
-              <br></br>
-              <hr className="line"></hr>
-              <Typography variant="h7" className="reviewTopL">Commends on the course:</Typography>
-              <br></br>
-              <br></br>
-              <Typography variant="body2" className="reviewTopL">{rows.body}</Typography>
-              <br></br>
-              <br></br>
-              <div className="bottom"><Typography variant="body2" className="reviewTopL">Grade: {rows.grade}</Typography></div>
-            </CardContent>
-          </Card>
-        </Grid> 
-      </Grid>
-    </Box>
-    </div>
-))}
+          <div className="review" key={rows.reviewID}>
+            <Box sx={{ flexGrow: 1, flexWrap: "wrap" }} className="user-posts">
+              <Card
+                key={rows.reviewID}
+                sx={{ flexGrow: 1, flexWrap: "wrap", margin: 0 }}
+                className="card"
+              >
+                <CardContent>
+                  <Grid
+                    container
+                    spacing={0.5}
+                    columns={{ xs: 8, md: 8, lg: 16 }}
+                  >
+                    {authState && rows.username === username ? (
+                      <>
+                        <Grid item xs={7} md={7} lg={15}>
+                          <Typography
+                            sx={{
+                              fontWeight: "bold",
+                              fontSize: 15,
+                              textAlign: "left",
+                            }}
+                          >
+                            {rows.courseID} - {rows.professorName} /{" "}
+                            {rows.universityTag}
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={1}
+                          md={1}
+                          lg={1}
+                          sx={{ textAlign: "right" }}
+                        >
+                          <CloseIcon
+                            className="delete"
+                            onClick={(e) => {
+                              onDelete(e, rows.reviewID);
+                            }}
+                          />
+                        </Grid>
+                      </>
+                    ) : (
+                      <>
+                        <Grid item xs={8} md={8} lg={16}>
+                          <Typography
+                            sx={{
+                              fontWeight: "bold",
+                              fontSize: 15,
+                              textAlign: "left",
+                            }}
+                          >
+                            {rows.courseID} - {rows.professorName} /{" "}
+                            {rows.universityTag}
+                          </Typography>
+                        </Grid>
+                      </>
+                    )}
 
+                    <Grid
+                      container
+                      spacing={2}
+                      columns={{ xs: 8, md: 8, lg: 16 }}
+                      alignItems="center"
+                      textAlign="center"
+                    >
+                      <Grid item xs={2} md={2} lg={4}>
+                        <div className={checkColor(rows.overall)}>
+                          {rows.overallScore}
+                        </div>
+                        <div>Overall</div>
+                      </Grid>
+                      <Grid item xs={2} md={2} lg={4}>
+                        <div className={checkColor(rows.easyScore)}>
+                          {rows.easyScore}
+                        </div>
+                        <div>Easiness</div>
+                      </Grid>
+                      <Grid item xs={2} md={2} lg={4}>
+                        <div className={checkColor(rows.UseScore)}>
+                          {rows.UseScore}
+                        </div>
+                        <div>Usefulness</div>
+                      </Grid>
+                      <Grid item xs={2} md={2} lg={4}>
+                        <div className={checkColor(rows.interestScore)}>
+                          {" "}
+                          {rows.interestScore}
+                        </div>
+                        <div>Interest</div>
+                      </Grid>
+                    </Grid>
 
+                    <Grid
+                      container
+                      spacing={2}
+                      columns={{ xs: 8, md: 8, lg: 16 }}
+                      alignItems="center"
+                    >
+                      <Grid item xs={8} lg={16} textAlign="left">
+                        <Chip size="small" label={`Year: ${rows.yearTaken}`} />
+                        <Chip size="small" label={`Term: ${rows.termTaken}`} />
+                        <Chip
+                          size="small"
+                          label={`Delivery: ${rows.delivery}`}
+                        />
+                        <Chip
+                          size="small"
+                          label={`Workload: ${rows.workload}`}
+                        />
+                        <Chip
+                          size="small"
+                          label={`Textbook: ${rows.textbook}`}
+                        />
+                        <Chip
+                          size="small"
+                          label={`Evaluation: ${rows.evaluation}`}
+                        />
+                      </Grid>
+                    </Grid>
+
+                    <Grid
+                      container
+                      spacing={2}
+                      columns={{ xs: 8, md: 8, lg: 16 }}
+                      alignItems="left"
+                    >
+                      <Grid item lg={16}>
+                        <Typography
+                          sx={{
+                            fontWeight: "bold",
+                            fontSize: 15,
+                            textAlign: "left",
+                          }}
+                        >
+                          Comments on the Course
+                        </Typography>
+                      </Grid>
+                    </Grid>
+
+                    <Grid
+                      container
+                      spacing={2}
+                      columns={{ xs: 8, md: 8, lg: 16 }}
+                      alignItems="left"
+                    >
+                      <Grid item lg={16}>
+                        <Typography
+                          sx={{
+                            fontWeight: "regular",
+                            fontSize: 15,
+                            textAlign: "left",
+                          }}
+                        >
+                          {rows.body}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+
+                    <Grid
+                      container
+                      spacing={2}
+                      columns={{ xs: 8, md: 8, lg: 16 }}
+                    >
+                      <Grid item lg={8}>
+                        <Typography
+                          sx={{
+                            fontWeight: "bold",
+                            fontSize: 15,
+                            textAlign: "left",
+                          }}
+                        >
+                          Grade: {rows.grade}
+                        </Typography>
+                      </Grid>
+
+                      <Grid item lg={8}>
+                        <Typography
+                          sx={{
+                            fontWeight: "bold",
+                            fontSize: 15,
+                            textAlign: "right",
+                          }}
+                        >
+                          {rows.dateUploaded.slice(0, 10)}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+            </Box>
+          </div>
+        ))}
+      </div>
     </div>
-  )
+  );
 }
 
-export default Course
+export default Course;

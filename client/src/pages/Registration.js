@@ -1,14 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import TextField from "@mui/material/TextField";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Button from '@mui/material/Button';
 import axios from 'axios';
+import { AuthContext } from '../helpers/AuthContext';
 import {useNavigate} from 'react-router-dom';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
 
 
 function Registration() {
 
+  const {setAuthState} = useContext(AuthContext);
   const navigate = useNavigate();
 
     const validationSchema = yup.object({
@@ -16,6 +21,10 @@ function Registration() {
           .string('Enter your username')
           .min(4, 'Username must be at least 4 characters')
           .required('Username is required'),
+        email: yup
+          .string('Enter your username')
+          .email('Enter a valid email')
+          .required('Email is required'),
         password: yup
           .string('Enter your password')
           .min(8, 'Password should be of minimum 8 characters length')
@@ -25,16 +34,27 @@ function Registration() {
     const formik = useFormik({
         initialValues: {
           username: '',
+          email: '',
           password: '',
         },
         validationSchema: validationSchema,
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             
-                axios.post("http://localhost:3001/user/register", values).then((response) => {
-                    console.log(response.data);
+                await axios.post("http://localhost:3001/user/register", values).then((response) => {
+                    
                     
                     if (!response.data.error) {
                       navigate(-1);
+                    }
+            })
+            axios.post("http://localhost:3001/user/login", values).then((response) => {
+                    if (response.data.error) {
+                        alert(response.data.error);
+                    } else {
+                        sessionStorage.setItem("accessToken", response.data);
+                        setAuthState(true);
+                        navigate(-1);
+                       
                     }
             })
             
@@ -42,10 +62,18 @@ function Registration() {
       });
     
       return (
-        <div>
-            Register
+        <div className="login-outer">
+        <Paper className="login" elevation={3}>
+        <Grid container spacing={2} columns={{ xs: 1, md: 1, lg: 1 }}> 
+            <Grid item xs={1} md={1} lg={1}>
+            <Typography sx={{ fontWeight:'bold', fontSize: 15, mt: 1.5, textAlign: "center" }} color="text.secondary">Register</Typography>
+            </Grid>
 
-          <form onSubmit={formik.handleSubmit}>
+            <Grid item xs={1} md={1} lg={1}>
+            <form onSubmit={formik.handleSubmit}>
+            <Grid container spacing={2} columns={{ xs: 1, md: 1, lg: 1 }}>
+              <Grid item xs={1} md={1} lg={1}>
+
             <TextField
               fullWidth
               id="username"
@@ -56,6 +84,20 @@ function Registration() {
               error={formik.touched.username && Boolean(formik.errors.username)}
               helperText={formik.touched.username && formik.errors.username}
             />
+            </Grid>
+            <Grid item xs={1} md={1} lg={1}>
+            <TextField
+              fullWidth
+              id="email"
+              name="email"
+              label="Email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+            </Grid>
+            <Grid item xs={1} md={1} lg={1}>
             <TextField
               fullWidth
               id="password"
@@ -67,10 +109,20 @@ function Registration() {
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
             />
+            </Grid>
+            <Grid item xs={1} md={1} lg={1}>
             <Button color="primary" variant="contained" fullWidth type="submit">
               Submit
             </Button>
+            </Grid>
+            </Grid>
           </form>
+            </Grid>
+          </Grid>
+
+        </Paper>
+
+          
         </div>
   )
 }

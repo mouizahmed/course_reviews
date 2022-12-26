@@ -23,6 +23,7 @@
   margin: 20px;
   height: 30px;
   margin-top: 20px !important;
+  
 
 }
 
@@ -55,12 +56,14 @@
   background-color: white;
 }
 
+
 .table {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 10px;
   flex-direction: column;
+  overflow-x: scroll;
 }
 
 .yellow {
@@ -180,6 +183,7 @@
   align-items: center;
   margin-left: auto;
   margin-right: auto;
+  
 
 }
 
@@ -291,4 +295,161 @@
 .left-rate:hover {
   display: flex;
   align-items: right;
+}
+
+.chip {
+  width: fit-content;
+  
+}
+
+.drop {
+  height: 8rem;
+  
+  padding: 5px;
+  border: 2px dashed grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  height: 200px;
+}
+
+.active {
+  border: 2px solid red;
+}
+
+.uploaded-image {
+  max-width: 200px;
+  max-height: 200px;
+}
+
+
+
+
+
+.profile {
+  max-width: 1000px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  flex-direction: column;
+  
+
+}
+
+
+.user-posts {
+  max-width: 1000px;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.home-top {
+  max-width: 1000px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  flex-direction: column;
+  margin-top: 20px !important;
+  margin-bottom: 0px !important;
+  max-height: 100%;
+
+}
+
+.overflow {
+  max-height: 75vh;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+}
+
+.overflow::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (max-width: 480px) {
+  .modal {
+   
+    position: absolute;
+    background-color: white;
+    padding: 20px;
+    bottom: 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100%;
+    
+    box-sizing: border-box;
+    overflow: auto;
+  
+  }
+
+  .overflow {
+    max-height: 73vh;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  
+  }
+  
+  .overflow::-webkit-scrollbar {
+    display: none;
+  }
+  
+}
+
+@media screen and (min-width: 481px) {
+  .modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+   
+    max-width: 450px;
+    background-color: white;
+    outline: 0;
+    padding: 25px;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    
+  }
+}
+
+.login-outer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  height: 80vh;
+  
+}
+
+.login {
+  
+  display: flex;
+  margin: 10px;
+  max-width: 500px;
+  padding: 10px;
+  
+  
+
+
+}
+
+.delete {
+  color: #E91E63;
+  transition: transform 1s;
+  z-index: 2;
+}
+
+.delete:hover {
+  transform: scale(1.5);
 }
