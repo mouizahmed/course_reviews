@@ -2,7 +2,7 @@ import mysql from "mysql";
 import * as dotenv from 'dotenv'
 
 
-const config = dotenv.config().parsed;
+const config = dotenv.config();
 console.log(config);
 export const db = mysql.createConnection({
     host: config.HOST,
