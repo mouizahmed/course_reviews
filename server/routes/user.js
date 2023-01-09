@@ -53,7 +53,7 @@ router.post("/login", async (req, res) => {
         } else {
           const accessToken = jwt.sign(
             { username: result[0].username, email: result[0].email },
-            config.LOGIN
+            LOGIN
           );
           res.json(accessToken);
         }

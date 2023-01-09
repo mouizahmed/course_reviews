@@ -5,10 +5,10 @@ import * as dotenv from 'dotenv'
 const config = dotenv.config().parsed;
 
 export const db = mysql.createConnection({
-    host: config.HOST,
-    user: config.USER,
-    password: config.PASSWORD,
-    database: config.DATABASE,
+    host: HOST,
+    user: USER,
+    password: PASSWORD,
+    database: DATABASE,
     multipleStatements: true
 });
 
