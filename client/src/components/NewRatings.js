@@ -1,16 +1,11 @@
 import React from "react";
 import Rating from "@mui/material/Rating";
-import Stack from "@mui/material/Stack";
-import StarIcon from "@mui/icons-material/Star";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 
 function NewRatings({ page, setPage, formData, setFormData }) {
-  const [hoverOverall, setHoverOverall] = React.useState();
-  const [hoverEasy, setHoverEasy] = React.useState();
-  const [hoverInterest, setHoverInterest] = React.useState();
-  const [hoverUseful, setHoverUseful] = React.useState();
+
 
   const enabled =
     formData.overall > 0 &&
