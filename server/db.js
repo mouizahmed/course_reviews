@@ -2,8 +2,8 @@ import mysql from "mysql";
 import * as dotenv from 'dotenv'
 
 
-const config = dotenv.config();
-console.log(config);
+const config = dotenv.config().parsed;
+
 export const db = mysql.createConnection({
     host: config.HOST,
     user: config.USER,
