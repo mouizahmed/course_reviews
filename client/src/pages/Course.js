@@ -45,7 +45,7 @@ function Course({ authState, username }) {
   useEffect(() => {
     axios
       .get(
-        `http://localhost:3001/course/${universityTag}/${facultyName}/${courseID}`
+        `https://course-reviews.onrender.com/course/${universityTag}/${facultyName}/${courseID}`
       )
       .then((response) => {
         setCourse(response.data[0]);
@@ -54,14 +54,14 @@ function Course({ authState, username }) {
       });
     axios
       .get(
-        `http://localhost:3001/review/${universityTag}/${facultyName}/${courseID}`
+        `https://course-reviews.onrender.com/review/${universityTag}/${facultyName}/${courseID}`
       )
       .then((response) => {
         setListOfReviews(response.data);
       });
     axios
       .get(
-        `http://localhost:3001/course/${universityTag}/${facultyName}/${courseID}/professors`
+        `https://course-reviews.onrender.com/course/${universityTag}/${facultyName}/${courseID}/professors`
       )
       .then((response) => {
         setListOfProfessors(response.data);
@@ -79,7 +79,7 @@ function Course({ authState, username }) {
     console.log(reviewID);
     console.log("delete");
     axios
-      .delete(`http://localhost:3001/user/delete/${reviewID}`, {
+      .delete(`https://course-reviews.onrender.com/user/delete/${reviewID}`, {
         headers: {
           accessToken: sessionStorage.getItem("accessToken"),
         },

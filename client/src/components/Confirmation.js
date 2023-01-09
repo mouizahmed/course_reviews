@@ -29,27 +29,27 @@ function Confirmation({
         console.log(formData.universityName);
         async function addU() {
           const firstR = await axios.post(
-            `http://localhost:3001/university/add`,
+            `https://course-reviews.onrender.com/university/add`,
             { formData }
           );
           const secondR = await axios.post(
-            `http://localhost:3001/faculty/add-faculty`,
+            `https://course-reviews.onrender.com/faculty/add-faculty`,
             { formData }
           );
           const thirdR = await axios.post(
-            `http://localhost:3001/course/add-course`,
+            `https://course-reviews.onrender.com/course/add-course`,
             { formData }
           );
           const fourthR = await axios.post(
-            `http://localhost:3001/professor/add-professor`,
+            `https://course-reviews.onrender.com/professor/add-professor`,
             { formData }
           );
           const fifthR = await axios.post(
-            `http://localhost:3001/professor/list-professor-course`,
+            `https://course-reviews.onrender.com/professor/list-professor-course`,
             { formData }
           );
           const sixthR = await axios.post(
-            `http://localhost:3001/review/post/${formData.universityTag}/${formData.faculty}/${formData.courseID}`,
+            `https://course-reviews.onrender.com/review/post/${formData.universityTag}/${formData.faculty}/${formData.courseID}`,
             formData,
             {
               headers: {
@@ -71,15 +71,15 @@ function Confirmation({
 
     if (type === "add-review") {
       const addP = await axios.post(
-        `http://localhost:3001/professor/add-professor`,
+        `https://course-reviews.onrender.com/professor/add-professor`,
         { formData }
       );
       const addPC = await axios.post(
-        `http://localhost:3001/professor/list-professor-course`,
+        `https://course-reviews.onrender.com/professor/list-professor-course`,
         { formData }
       );
       const addR = await axios.post(
-        `http://localhost:3001/review/post/${formData.universityTag}/${formData.faculty}/${formData.courseID}`,
+        `https://course-reviews.onrender.com/review/post/${formData.universityTag}/${formData.faculty}/${formData.courseID}`,
         formData,
         {
           headers: {
@@ -90,22 +90,22 @@ function Confirmation({
       window.location.reload(true);
     } else if (type === "add-course") {
       const secondR = await axios.post(
-        `http://localhost:3001/faculty/add-faculty`,
+        `https://course-reviews.onrender.com/faculty/add-faculty`,
         { formData }
       );
-      const addC = await axios.post(`http://localhost:3001/course/add-course`, {
+      const addC = await axios.post(`https://course-reviews.onrender.com/course/add-course`, {
         formData,
       });
       const addP = await axios.post(
-        `http://localhost:3001/professor/add-professor`,
+        `https://course-reviews.onrender.com/professor/add-professor`,
         { formData }
       );
       const addPC = await axios.post(
-        `http://localhost:3001/professor/list-professor-course`,
+        `https://course-reviews.onrender.com/professor/list-professor-course`,
         { formData }
       );
       const addR = await axios.post(
-        `http://localhost:3001/review/post/${formData.universityTag}/${formData.faculty}/${formData.courseID}`,
+        `https://course-reviews.onrender.com/review/post/${formData.universityTag}/${formData.faculty}/${formData.courseID}`,
         formData,
         {
           headers: {

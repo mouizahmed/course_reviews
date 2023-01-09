@@ -56,7 +56,7 @@ function NewReview(props) {
     if (data.overall !== "") {
       try {
         axios.post(
-          `http://localhost:3001/review/post/${universityTag}/${facultyName}/${courseID}`,
+          `https://course-reviews.onrender.com/review/post/${universityTag}/${facultyName}/${courseID}`,
           data,
           {
             headers: {

@@ -55,23 +55,23 @@ function University() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/university/byUniTag/${universityTag}`)
+      .get(`https://course-reviews.onrender.com/university/byUniTag/${universityTag}`)
       .then((response) => {
         setUniversityName(response.data[0].universityName);
       });
     axios
-      .get(`http://localhost:3001/faculty/${universityTag}`)
+      .get(`https://course-reviews.onrender.com/faculty/${universityTag}`)
       .then((response) => {
         setListOfFaculties(response.data);
       });
     axios
-      .get(`http://localhost:3001/course/${universityTag}`)
+      .get(`https://course-reviews.onrender.com/course/${universityTag}`)
       .then((response) => {
         setListOfCourses(response.data);
         setFiltered(response.data);
       });
     axios
-      .get(`http://localhost:3001/course/${universityTag}`)
+      .get(`https://course-reviews.onrender.com/course/${universityTag}`)
       .then((response) => {
         setListOfCourses(response.data);
         setFiltered(response.data);

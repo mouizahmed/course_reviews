@@ -38,7 +38,7 @@ function Profile(props) {
     e.preventDefault();
     e.stopPropagation();
     axios
-      .delete(`http://localhost:3001/user/delete/${reviewID}`, {
+      .delete(`https://course-reviews.onrender.com/user/delete/${reviewID}`, {
         headers: {
           accessToken: sessionStorage.getItem("accessToken"),
         },

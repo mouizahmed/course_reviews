@@ -26,7 +26,7 @@ function NewCourse({
     } else {
       axios
         .get(
-          `http://localhost:3001/faculty/${formData.universityTag}/${formData.faculty}`
+          `https://course-reviews.onrender.com/faculty/${formData.universityTag}/${formData.faculty}`
         )
         .then((response) => {
           setListOfProfessors(response.data);

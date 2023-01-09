@@ -19,7 +19,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/user/auth", {
+      .get("https://course-reviews.onrender.com/user/auth", {
         headers: {
           accessToken: sessionStorage.getItem("accessToken"),
         },
