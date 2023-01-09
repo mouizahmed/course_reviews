@@ -215,7 +215,7 @@ function University() {
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                       hover
                       onClick={() =>
-                        (window.location.href = `/${rows.universityTag}/${rows.facultyName}/${rows.courseID}`)
+                        window.location.href = `/${rows.universityTag}/${rows.facultyName}/${rows.courseID}`
                       }
                       pointer={rows.toString()}
                     >
