@@ -9,6 +9,8 @@ app.use(bodyParser.json());
 
 //const db = require('./models');
 
+app.get('/health', (_, res) => res.send('Testing health status'))
+
 // Routers
 import universityRouter from "./routes/university.js";
 app.use("/university", universityRouter);
