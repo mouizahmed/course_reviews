@@ -55,23 +55,23 @@ function University() {
 
   useEffect(() => {
     axios
-      .get(`https://course-reviews.onrender.com/university/byUniTag/${universityTag}`)
+      .get(`https://course-reviews-backend.vercel.app/university/byUniTag/${universityTag}`)
       .then((response) => {
         setUniversityName(response.data[0].universityName);
       });
     axios
-      .get(`https://course-reviews.onrender.com/faculty/${universityTag}`)
+      .get(`https://course-reviews-backend.vercel.app/faculty/${universityTag}`)
       .then((response) => {
         setListOfFaculties(response.data);
       });
     axios
-      .get(`https://course-reviews.onrender.com/course/${universityTag}`)
+      .get(`https://course-reviews-backend.vercel.app/course/${universityTag}`)
       .then((response) => {
         setListOfCourses(response.data);
         setFiltered(response.data);
       });
     axios
-      .get(`https://course-reviews.onrender.com/course/${universityTag}`)
+      .get(`https://course-reviews-backend.vercel.app/course/${universityTag}`)
       .then((response) => {
         setListOfCourses(response.data);
         setFiltered(response.data);

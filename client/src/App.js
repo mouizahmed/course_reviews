@@ -19,7 +19,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("https://course-reviews.onrender.com/user/auth", {
+      .get("https://course-reviews-backend.vercel.app/user/auth", {
         headers: {
           accessToken: sessionStorage.getItem("accessToken"),
         },

@@ -40,14 +40,14 @@ function Registration() {
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             
-                await axios.post("https://course-reviews.onrender.com/user/register", values).then((response) => {
+                await axios.post("https://course-reviews-backend.vercel.app/user/register", values).then((response) => {
                     
                     
                     if (!response.data.error) {
                       navigate(-1);
                     }
             })
-            axios.post("https://course-reviews.onrender.com/user/login", values).then((response) => {
+            axios.post("https://course-reviews-backend.vercel.app/user/login", values).then((response) => {
                     if (response.data.error) {
                         alert(response.data.error);
                     } else {

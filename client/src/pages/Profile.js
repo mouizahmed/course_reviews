@@ -18,7 +18,7 @@ function Profile(props) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/user/posts`, {
+      .get(`https://course-reviews-backend.vercel.app/user/posts`, {
         headers: {
           accessToken: sessionStorage.getItem("accessToken"),
         },
@@ -38,7 +38,7 @@ function Profile(props) {
     e.preventDefault();
     e.stopPropagation();
     axios
-      .delete(`https://course-reviews.onrender.com/user/delete/${reviewID}`, {
+      .delete(`https://course-reviews-backend.vercel.app/user/delete/${reviewID}`, {
         headers: {
           accessToken: sessionStorage.getItem("accessToken"),
         },
