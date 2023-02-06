@@ -21,3 +21,4 @@ MySQL, ExpressJS, NodeJS, ReactJS, MUI, Cloudinary.
 
 - First request to the backend and database were extremely slow (only present during initial load of website).
   - This has been fixed by switching from Render to Vercel to host the back-end. (Render.com shuts down the server after inactivity, making the first request take significantly longer)
+- Currently shut down MySQL datanase hosting on Google Cloud Platform due to accruing charges. Will find another hosting platform with minimal costs.
