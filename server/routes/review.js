@@ -10,7 +10,7 @@ router.get("/:uniTag/:facultyName/:courseID", async (req, res) => {
   const uniTag = req.params.uniTag;
   const facultyName = req.params.facultyName;
   const courseID = req.params.courseID;
-  const q = `SELECT * FROM course_review.reviews WHERE universityTag = '${uniTag}' AND facultyName = '${facultyName}' AND courseID = '${courseID}'`;
+  const q = `SELECT * FROM reviews WHERE universityTag = '${uniTag}' AND facultyName = '${facultyName}' AND courseID = '${courseID}'`;
   // const university = await universities.findByPk(uniTag);
   //res.json(university);
   db.query(q, (err, result) => {
@@ -28,7 +28,7 @@ router.post("/:uniTag/:facultyName/:courseID", async (req, res) => {
   const uniTag = req.params.uniTag;
   const facultyName = req.params.facultyName;
   const courseID = req.params.courseID;
-  const q = `SELECT * FROM course_review.reviews WHERE universityTag = '${uniTag}' AND facultyName = '${facultyName}' AND courseID = '${courseID}'`;
+  const q = `SELECT * FROM reviews WHERE universityTag = '${uniTag}' AND facultyName = '${facultyName}' AND courseID = '${courseID}'`;
   // const university = await universities.findByPk(uniTag);
   //res.json(university);
   db.query(q, (err, result) => {
@@ -53,7 +53,7 @@ router.post(
     const facultyName = req.params.faculty;
     const courseID = req.params.courseID;
     if (typeof username === "undefined") {
-      const q = `INSERT INTO course_review.reviews (dateUploaded, universityTag, facultyName, courseID, overallScore, easyScore, useScore, interestScore, delivery, evaluation, termTaken, yearTaken, grade, textbook, workload, body, professorName) 
+      const q = `INSERT INTO reviews (dateUploaded, universityTag, facultyName, courseID, overallScore, easyScore, useScore, interestScore, delivery, evaluation, termTaken, yearTaken, grade, textbook, workload, body, professorName) 
                                         VALUES (CURDATE(), '${post.universityTag}', '${post.faculty}', '${post.courseID}', '${post.overall}', '${post.easy}', '${post.useful}', '${post.interest}', '${post.delivery}', '${post.evaluation}', '${post.term}', '${post.year}', '${post.grade}', '${post.textbook}', '${post.work}', '${post.body}', '${post.professor}')`;
 
       await db.query(q, (err, result) => {
@@ -64,7 +64,7 @@ router.post(
         }
       });
     } else {
-      const q2 = `INSERT INTO course_review.reviews (username, dateUploaded, universityTag, facultyName, courseID, overallScore, easyScore, useScore, interestScore, delivery, evaluation, termTaken, yearTaken, grade, textbook, workload, body, professorName) 
+      const q2 = `INSERT INTO reviews (username, dateUploaded, universityTag, facultyName, courseID, overallScore, easyScore, useScore, interestScore, delivery, evaluation, termTaken, yearTaken, grade, textbook, workload, body, professorName) 
                                         VALUES ('${username}', CURDATE(), '${post.universityTag}', '${post.faculty}', '${post.courseID}', '${post.overall}', '${post.easy}', '${post.useful}', '${post.interest}', '${post.delivery}', '${post.evaluation}', '${post.term}', '${post.year}', '${post.grade}', '${post.textbook}', '${post.work}', '${post.body}', '${post.professor}')`;
 
       //res.json(university);

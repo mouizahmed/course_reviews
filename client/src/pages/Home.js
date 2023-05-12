@@ -22,7 +22,7 @@ function Home() {
   // const [universityName, setUniversityName] = useState([]);
   //const [universityTag, setUniversityTag] = useState();
   useEffect(() => {
-    axios.get("https://course-reviews-backend.vercel.app/university").then((response) => {
+    axios.get(`${process.env.REACT_APP_URL}/university`).then((response) => {
       setListOfUniversities(response.data);
     });
   }, []);

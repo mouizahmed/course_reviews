@@ -56,7 +56,7 @@ function NewReview(props) {
     if (data.overall !== "") {
       try {
         axios.post(
-          `https://course-reviews-backend.vercel.app/review/post/${universityTag}/${facultyName}/${courseID}`,
+          `${process.env.REACT_APP_URL}/review/post/${universityTag}/${facultyName}/${courseID}`,
           data,
           {
             headers: {

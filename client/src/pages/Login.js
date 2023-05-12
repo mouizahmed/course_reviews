@@ -33,7 +33,7 @@ function Login() {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       axios
-        .post("https://course-reviews-backend.vercel.app/user/login", values)
+        .post(`${process.env.REACT_APP_URL}/user/login`, values)
         .then((response) => {
           if (response.data.error) {
             alert(response.data.error);

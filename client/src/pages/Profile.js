@@ -18,7 +18,7 @@ function Profile(props) {
 
   useEffect(() => {
     axios
-      .get(`https://course-reviews-backend.vercel.app/user/posts`, {
+      .get(`${process.env.REACT_APP_URL}/user/posts`, {
         headers: {
           accessToken: sessionStorage.getItem("accessToken"),
         },
@@ -38,7 +38,7 @@ function Profile(props) {
     e.preventDefault();
     e.stopPropagation();
     axios
-      .delete(`https://course-reviews-backend.vercel.app/user/delete/${reviewID}`, {
+      .delete(`${process.env.REACT_APP_URL}/user/delete/${reviewID}`, {
         headers: {
           accessToken: sessionStorage.getItem("accessToken"),
         },

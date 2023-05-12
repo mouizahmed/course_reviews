@@ -14,13 +14,13 @@ router.post("/register", async (req, res) => {
   const post = req.body;
 
   await bcrypt.hash(post.password, 10).then((hash) => {
-    const q = `INSERT INTO course_review.useraccounts (username, email, pass, regDate) VALUES ('${post.username}', '${post.email}', '${hash}', CURDATE())`;
+    const q = `INSERT INTO useraccounts (username, email, pass, regDate) VALUES ('${post.username}', '${post.email}', '${hash}', CURDATE())`;
     let check = 0;
-    const q1 = `SELECT COUNT(*) as f from course_review.useraccounts WHERE username = '${post.username}'`;
+    const q1 = `SELECT COUNT(*) as f from useraccounts WHERE username = '${post.username}'`;
 
     db.query(q1, (err, result) => {
       check = result[0].f;
-
+      
       if (check == 0) {
         db.query(q, (err, result) => {
           res.json("LOGGED IN");
@@ -37,9 +37,9 @@ router.post("/login", async (req, res) => {
   //res.json(listOfFaculties);
   const post = req.body;
 
-  const q = `SELECT COUNT(*) as f, username, email, pass from course_review.useraccounts WHERE username = '${post.username}'`;
+  const q = `SELECT COUNT(*) as f, username, email, pass from useraccounts WHERE username = '${post.username}'`;
   let check = 0;
-  const q1 = `SELECT (username, password) from course_review.useraccounts WHERE username = '${post.username}' & password = '${post.password}'`;
+  const q1 = `SELECT (username, password) from useraccounts WHERE username = '${post.username}' & password = '${post.password}'`;
 
   db.query(q, (err, result) => {
     check = result[0].f;
@@ -76,7 +76,7 @@ router.get("/posts", validateToken, (req, res) => {
   let username = req.user.username;
   //console.log(username);
 
-  const q = `SELECT * FROM course_review.reviews WHERE username='${username}' ORDER BY dateUploaded DESC`;
+  const q = `SELECT * FROM reviews WHERE username='${username}' ORDER BY dateUploaded DESC`;
 
   db.query(q, (err, result) => {
     try {
@@ -95,7 +95,7 @@ router.delete("/delete/:reviewID", validateToken, (req, res) => {
   let username = req.user.username;
   //console.log(username);
 
-  const q = `DELETE FROM course_review.reviews WHERE username='${username}' AND reviewID='${reviewID}'`;
+  const q = `DELETE FROM reviews WHERE username='${username}' AND reviewID='${reviewID}'`;
 
   db.query(q, (err, result) => {
     try {

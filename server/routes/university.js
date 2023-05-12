@@ -8,6 +8,7 @@ router.get("/", async (req, res) => {
     "SELECT universities.universityName, universities.universityTag, (SELECT COUNT(*) FROM reviews WHERE universities.universityTag=reviews.universityTag) as review_num, logo FROM universities GROUP BY universityName;";
   db.query(q, (err, result) => {
     try {
+      console.log(result);
       res.json(result);
     } catch (err) {
       res.json(err);
@@ -19,11 +20,12 @@ router.get("/", async (req, res) => {
 
 router.get("/byUniTag/:uniTag", async (req, res) => {
   const uniTag = req.params.uniTag;
-  const q = `SELECT * FROM course_review.universities WHERE universityTag = '${uniTag}'`;
+  const q = `SELECT * FROM universities WHERE universityTag = '${uniTag}'`;
   // const university = await universities.findByPk(uniTag);
   //res.json(university);
   db.query(q, (err, result) => {
     try {
+      console.log(result);
       res.json(result);
     } catch (err) {
       res.json(err);
@@ -35,7 +37,7 @@ router.post("/add", async (req, res) => {
   ///console.log(req.body);
   const post = req.body.formData;
   //console.log(post);
-  const q = `INSERT INTO course_review.universities (universityTag, universityName, logo) VALUES ('${post.universityTag}', '${post.universityName}', '${post.logo}');`;
+  const q = `INSERT INTO universities (universityTag, universityName, logo) VALUES ('${post.universityTag}', '${post.universityName}', '${post.logo}');`;
   // const q = `INSERT INTO course_review.universities (universityTag, universityName, logo) VALUES ('${post.universityTag}', '${post.universityName}', '${post.logo}');
   //            INSERT INTO course_review.faculties (facultyName, universityTag) VALUES ('${post.faculty}', '${post.universityTag}');
   //            INSERT INTO course_review.courses (facultyName, universityTag, courseID, courseName) VALUES ('${post.faculty}', '${post.universityTag}', '${post.courseID}', '${post.courseName}');

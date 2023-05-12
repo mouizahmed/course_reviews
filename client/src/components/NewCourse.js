@@ -26,7 +26,7 @@ function NewCourse({
     } else {
       axios
         .get(
-          `https://course-reviews-backend.vercel.app/faculty/${formData.universityTag}/${formData.faculty}`
+          `${process.env.REACT_APP_URL}/faculty/${formData.universityTag}/${formData.faculty}`
         )
         .then((response) => {
           setListOfProfessors(response.data);
