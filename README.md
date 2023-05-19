@@ -20,5 +20,6 @@ MySQL, ExpressJS, NodeJS, ReactJS, MUI, Cloudinary.
 # Bugs & Fixes
 
 - First request to the backend and database were extremely slow (only present during initial load of website).
-  - This has been fixed by switching from Render to Vercel to host the back-end. (Render.com shuts down the server after inactivity, making the first request take significantly longer)
+  - This has been fixed by switching from Render to Vercel to host the back-end. (Render.com shuts down the server after inactivity, making the first request take significantly longer) :heavy_check_mark:
 - Currently shut down MySQL database hosting on Google Cloud Platform due to accruing charges. Will find another hosting platform with minimal costs.
+  - This has been fixed by switching to PlanetScale's NoSQL Database (Serverless). :heavy_check_mark:
