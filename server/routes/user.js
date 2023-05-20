@@ -14,9 +14,9 @@ router.post("/register", async (req, res) => {
   const post = req.body;
 
   await bcrypt.hash(post.password, 10).then((hash) => {
-    const q = `INSERT INTO useraccounts (username, email, pass, regDate) VALUES ('${post.username}', '${post.email}', '${hash}', CURDATE())`;
+    const q = `INSERT INTO UserAccounts (username, email, pass, regDate) VALUES ('${post.username}', '${post.email}', '${hash}', CURDATE())`;
     let check = 0;
-    const q1 = `SELECT COUNT(*) as f from useraccounts WHERE username = '${post.username}'`;
+    const q1 = `SELECT COUNT(*) as f from UserAccounts WHERE username = '${post.username}'`;
 
     db.query(q1, (err, result) => {
       check = result[0].f;
@@ -37,13 +37,13 @@ router.post("/login", async (req, res) => {
   //res.json(listOfFaculties);
   const post = req.body;
 
-  const q = `SELECT COUNT(*) as f, username, email, pass from useraccounts WHERE username = '${post.username}'`;
+  const q = `SELECT COUNT(*) as f, username, email, pass from UserAccounts WHERE username = '${post.username}'`;
   let check = 0;
-  const q1 = `SELECT (username, password) from useraccounts WHERE username = '${post.username}' & password = '${post.password}'`;
+  const q1 = `SELECT (username, password) from UserAccounts WHERE username = '${post.username}' & password = '${post.password}'`;
 
   db.query(q, (err, result) => {
     check = result[0].f;
-
+    
     if (check == 0) {
       res.json({ error: "Username doesn't exist!" });
     } else {
