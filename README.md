@@ -23,3 +23,5 @@ MySQL, ExpressJS, NodeJS, ReactJS, MUI, Cloudinary.
   - This has been fixed by switching from Render to Vercel to host the back-end. (Render.com shuts down the server after inactivity, making the first request take significantly longer) :heavy_check_mark:
 - Currently shut down MySQL database hosting on Google Cloud Platform due to accruing charges. Will find another hosting platform with minimal costs.
   - This has been fixed by switching to PlanetScale's NoSQL Database (Serverless). :heavy_check_mark:
+- Database loading is extremely slow (using PlanetScale NoSQL Database) :x:
+  - PlanetScale Database may idle (go to sleep) if inactive for a while. :x:
